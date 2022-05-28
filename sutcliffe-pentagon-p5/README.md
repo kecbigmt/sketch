@@ -1,6 +1,6 @@
 1|2|3|4
 ---|---|---|---
-![image](out_01.png)|![image](out_02.png)|![image](out_03.png)|![image](out_04.png)
+![image](out/out_01.png)|![image](out/out_02.png)|![image](out/out_03.png)|![image](out/out_04.png)
 
 ブラウザで立ち上げるには、
 
