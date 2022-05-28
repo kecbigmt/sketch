@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "parcel src/index.html --open",
+    "build": "parcel build src/index.html"
+  },
+  "devDependencies": {
+    "@types/p5": "^1.4.2",
+    "parcel": "^2.6.0"
+  },
+  "dependencies": {
+    "p5": "^1.4.1"
+  }
+}
