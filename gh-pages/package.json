@@ -5,7 +5,7 @@
   "source": "src/index.html",
   "scripts": {
     "dev": "parcel --open",
-    "build": "parcel build --public-url /sketch/"
+    "build": "parcel build"
   },
   "devDependencies": {
     "@parcel/transformer-glsl": "^2.6.0",
