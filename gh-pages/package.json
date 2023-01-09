@@ -1,0 +1,18 @@
+{
+  "name": "my-sketch",
+  "private": true,
+  "version": "0.1.0",
+  "source": "src/index.html",
+  "scripts": {
+    "dev": "parcel --open",
+    "build": "parcel build --public-url /sketch/"
+  },
+  "devDependencies": {
+    "@parcel/transformer-glsl": "^2.6.0",
+    "@types/p5": "^1.4.3",
+    "parcel": "^2.6.0"
+  },
+  "dependencies": {
+    "p5": "^1.5.0"
+  }
+}
