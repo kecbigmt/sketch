@@ -13,7 +13,7 @@ env:
 
 defaults:
   run:
-    working-directory: ./${{ env.PROJECT_ROOT }}
+    working-directory: ./gh-pages
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
