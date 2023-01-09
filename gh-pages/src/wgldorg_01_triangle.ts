@@ -1,6 +1,19 @@
 import { mat4 } from "gl-matrix";
-import vert from "./shader/vert.glsl";
-import frag from "./shader/frag.glsl";
+
+const vert = `
+  attribute vec3 position;
+  uniform mat4 mvpMatrix;
+
+  void main(void) {
+    gl_Position = mvpMatrix * vec4(position, 1.0);
+  }
+`;
+
+const frag = `
+  void main(void) {
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  }
+`;
 
 /*
 1. HTML から canvas エレメントを取得
@@ -19,6 +32,7 @@ function main() {
   canvas.height = 300;
 
   const gl = canvas.getContext("webgl");
+  if (!gl) throw new Error("failed to get webgl rendering context");
 
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.clearDepth(1.0);
@@ -90,6 +104,8 @@ class Draw {
 
   createShader(type: number, source: string): WebGLShader {
     const shader = this.gl.createShader(type);
+    if (!shader) throw new Error("failed to create webgl shader");
+
     this.gl.shaderSource(shader, source);
     this.gl.compileShader(shader);
     if (this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
@@ -100,6 +116,7 @@ class Draw {
 
   createProgram(vs: WebGLShader, fs: WebGLShader) {
     const program = this.gl.createProgram();
+    if (!program) throw new Error("failed to create webgl program");
 
     this.gl.attachShader(program, vs);
     this.gl.attachShader(program, fs);
@@ -116,6 +133,8 @@ class Draw {
 
   createVertexBufferObject(data: number[]): WebGLBuffer {
     const vbo = this.gl.createBuffer(); // バッファを生成する
+    if (!vbo) throw new Error("failed to create webgl buffer");
+
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vbo); // WebGLにバッファをバインドする
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
