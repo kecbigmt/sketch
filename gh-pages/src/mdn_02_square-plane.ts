@@ -55,14 +55,14 @@ function main() {
 
   const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
   const programInfo: ProgramInfo = {
-    program: shaderProgram,
+    program: shaderProgram!,
     attribLocations: {
-      vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"), // aVertexPositionという変数のインデックス番号を取得する
-      vertexColorAttribute: gl.getAttribLocation(shaderProgram, "aVertexColor"),
+      vertexPosition: gl.getAttribLocation(shaderProgram!, "aVertexPosition")!, // aVertexPositionという変数のインデックス番号を取得する
+      vertexColorAttribute: gl.getAttribLocation(shaderProgram!, "aVertexColor")!,
     },
     uniformLocations: {
-      projectionMatrix: gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
-      modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
+      projectionMatrix: gl.getUniformLocation(shaderProgram!, "uProjectionMatrix")!,
+      modelViewMatrix: gl.getUniformLocation(shaderProgram!, "uModelViewMatrix")!,
     }
   };
   const buffers = initBuffers(gl);
@@ -75,12 +75,12 @@ function initShaderProgram(gl: WebGLRenderingContext, vsSource: string, fsSource
   const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
 
   const shaderProgram = gl.createProgram();
-  gl.attachShader(shaderProgram, vertexShader);
-  gl.attachShader(shaderProgram, fragmentShader);
-  gl.linkProgram(shaderProgram);
+  gl.attachShader(shaderProgram!, vertexShader!);
+  gl.attachShader(shaderProgram!, fragmentShader!);
+  gl.linkProgram(shaderProgram!);
 
-  if(!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-    alert("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram));
+  if(!gl.getProgramParameter(shaderProgram!, gl.LINK_STATUS)) {
+    alert("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram!));
     return null;
   }
 
@@ -89,10 +89,10 @@ function initShaderProgram(gl: WebGLRenderingContext, vsSource: string, fsSource
 
 function loadShader(gl: WebGLRenderingContext, type: number, source: string) {
   const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert("An error occurred compiling the shaders: " + gl.getShaderInfoLog(shader));
+  gl.shaderSource(shader!, source);
+  gl.compileShader(shader!);
+  if (!gl.getShaderParameter(shader!, gl.COMPILE_STATUS)) {
+    alert("An error occurred compiling the shaders: " + gl.getShaderInfoLog(shader!));
     gl.deleteShader(shader);
     return null;
   }
@@ -127,8 +127,8 @@ function initBuffers(gl: WebGLRenderingContext) {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
   return {
-    position: positionBuffer,
-    squareVerticesColor: squareVerticesColorBuffer,
+    position: positionBuffer!,
+    squareVerticesColor: squareVerticesColorBuffer!,
   };
 }
 
@@ -144,7 +144,8 @@ function drawScene(gl: WebGLRenderingContext, programInfo: ProgramInfo, buffers:
   // パースペクティブ行列を作る。パースペクティブ行列は、カメラにおける遠近法による歪みをシミュレートするために使われる特殊な行列
   // カメラの視野は45度で、キャンバスの表示サイズと同じ縦横比を持つ。そしてカメラから0.1〜100unitの範囲内のオブジェクトだけが見えるようにする。
   const fieldOfView = 45 * Math.PI / 180; // 45°のラジアン
-  const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+  const canvas = gl.canvas as HTMLCanvasElement;
+  const aspect = canvas.clientWidth / canvas.clientHeight;
   const zNear = 0.1;
   const zFar = 100.0;
 
